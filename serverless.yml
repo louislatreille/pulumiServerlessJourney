@@ -1,0 +1,52 @@
+service: pulumi-serverless-journey
+frameworkVersion: "3"
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  stage: dev
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+plugins:
+  - serverless-bundle
+  - serverless-iam-roles-per-function
+custom: {}
+package:
+  individually: true
+functions:
+  function1:
+    handler: ./src/functions/function1/handler.main
+    iamRoleStatementsName: "function1-exec-role-pulumi-serverless-journey"
+    iamRoleStatementsInherit: true
+    timeout: 5
+    memorySize: 256
+    events:
+      - http:
+          path: /function1
+          method: POST
+          cors: true
+  function2:
+    handler: ./src/functions/function2/handler.main
+    iamRoleStatementsName: "function2-exec-role-pulumi-serverless-journey"
+    iamRoleStatementsInherit: true
+    timeout: 5
+    memorySize: 256
+    events:
+      - http:
+          path: /function2
+          method: POST
+          cors: true
+  function3:
+    handler: ./src/functions/function3/handler.main
+    iamRoleStatementsName: "function3-exec-role-pulumi-serverless-journey"
+    iamRoleStatementsInherit: true
+    timeout: 5
+    memorySize: 256
+    events:
+      - http:
+          path: /function3
+          method: POST
+          cors: true
+
+resources:
+  Resources:
